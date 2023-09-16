@@ -1,0 +1,30 @@
+.tabela, .tabela td, .tabela th {
+    border: 1px solid;
+    padding: 10px;
+    background-color: #ffffff;
+}
+
+.icons {
+    display: flex;
+    gap: 20px;
+    align-items: center;   
+}
+
+.editar {
+    cursor: pointer;
+}
+
+.deletar {
+    cursor: pointer;
+}
+
+.linkCadastro {
+    color: white;
+    display: flex;
+    justify-content: center;
+    background-color: #253342;
+    padding: 20px;
+    border-radius: 20px;
+    width: 300px;
+    margin: 40px auto;
+}

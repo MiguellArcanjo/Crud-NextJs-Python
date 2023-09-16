@@ -1,0 +1,37 @@
+.background {
+    background-color: #232226;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+label {
+    color: #ffffff;
+}
+
+.divForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.divForm input {
+    border-radius: 7px;
+    outline: none;
+    border: none;
+    padding: 7px;
+}
+
+.button {
+    background-color: #253342;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+}
