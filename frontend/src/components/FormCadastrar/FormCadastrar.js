@@ -12,6 +12,20 @@ function FormCadastrar() {
     const erro = () => toast.error("Erro ao cadastrar.")
 
     const [feedback, setFeedback] = useState(null);
+    const [ error, setError ] = useState(null)
+
+
+    useEffect(() => {
+      if (feedback === true) {
+        notify();
+        setTimeout(() => {
+            window.location.reload()
+        }, "1000")
+
+      } else if (feedback === false) {
+        erro();
+      }
+    }, [feedback]);
 
     const [formData, setFormData] = useState({
         "nome_do_item": "",
@@ -29,32 +43,36 @@ function FormCadastrar() {
           [propertyName]: value,
         })
       };
+
+
     
-    
-      const handleSubmit = (e) => {
+      const handleSubmit = async (e) => {
         e.preventDefault();
+
+
+        try {
+          const response = await fetch(`${apiUrl}/produto/produto/`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          });
     
-        fetch(`${apiUrl}/produto/produto/`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Não foi possivel cadastrar o produto")
-            }
-            return response.json();
-          })
-          .then((data) => {
+          if (response.status === 400) {
+            const errorData = await response.json();
+            console.log(errorData)
+            setError('Ja existe um item com este nome.');  // Definindo o erro no estado
+
+          } else {
+            const data = await response.json(); // Obtém os dados da resposta
             console.log("Produto cadastrado com sucesso:", data);
-            setFeedback(true)
-          })
-          .catch((error) => {
-            console.error("Erro ao cadastrar o produto", error);
-            setFeedback(false)
-          })
+            setFeedback(true);
+          }
+        } catch (error) {
+          console.error('Erro ao fazer a requisição:', error);
+        }
+
       }
 
     return (
@@ -65,6 +83,7 @@ function FormCadastrar() {
                 <div className='divForm'>
                     <label htmlFor='nome_do_item'>Nome do produto: </label>
                     <input type="text" id='name' name='nome_do_item' value={formData.nome_do_item} onChange={(e) =>handleChange(e, "nome_do_item")}/>
+                    {error !== null ? <p className='error'>{error}</p> : null}
                 </div>
 
                 <div className='divForm'>
@@ -98,7 +117,7 @@ function FormCadastrar() {
                     </select>
                 </div>
 
-                <button type='submit' className='button' onClick={feedback === true ? notify : erro}>Cadastrar</button>
+                <button type='submit' className='button'>Cadastrar</button>
                 <Toaster 
                   position="bottom-left"
                   toastOptions={{

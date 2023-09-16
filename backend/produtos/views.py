@@ -1,8 +1,9 @@
-from rest_framework import viewsets, serializers, filters
+from rest_framework import viewsets, serializers, filters, status
 from produtos.models import Produto, MarcaProduto, CategoriaProduto
 from produtos.serializers import ProdutoSerializers, MarcaProdutoSerializers, CategoriaProdutoSerializer
 from produtos.pagination import PaginacaoCustomizadaProdutos, PaginacaoCustomizadaCategorias, PaginacaoCustomizadaMarcas
-from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
 class ProdutoViewSet(viewsets.ModelViewSet):
@@ -12,6 +13,12 @@ class ProdutoViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['nome_do_item', 'marca_do_produto__marca', 'categoria_produto__categoria']
 
+
+    # @api_view(['GET'])
+    # def verificar_existencia_produto(request):
+    #     nome_do_item = request.GET.get('nome_do_item')
+    #     produto_existe = Produto.objects.filter(nome_do_item=nome_do_item).exists()
+    #     return Response({'produtoExiste': produto_existe}, status=status.HTTP_200_OK)
 
     def perform_create(self, serializer): 
         nome_do_item = serializer.validated_data.get('nome_do_item')

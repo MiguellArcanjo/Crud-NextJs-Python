@@ -3,12 +3,17 @@ import './style.css'
 import { MdDeleteForever } from "react-icons/md";
 import { BsPencilFill } from "react-icons/bs"
 import Link from 'next/link';
+import toast, { Toaster } from 'react-hot-toast';
 
 function TabelaProdutos() {
+
+  const deleteSuccess = () => toast.success("Produto Deletado com Sucesso!")
+
   const apiUrl = "http://127.0.0.1:8000"
   const [ produtos, setProdutos ] = useState([]);
   const [ marcaProduto, setMarcaProduto ] = useState([]);
   const [ categoriaProduto, setCategoriaProduto ] = useState([])
+
 
   useEffect(() => {
     fetch(`${apiUrl}/produto/produto`)
@@ -31,7 +36,25 @@ function TabelaProdutos() {
     .catch((error) => console.error("Erro ao buscar a categoria", error))
   })
 
-  console.log(produtos)
+  const handleDelete = async (produtoId) => {
+    try{
+        const response = await fetch(`${apiUrl}/produto/produto/${produtoId}/`, {
+            method: 'DELETE',
+        })
+
+        if (!response.ok) {
+            throw new Error('Não foi possível deletar o produto.');
+          }
+          
+          setProdutos(produtos.filter((produto) => produto.id !== produtoId))
+          
+        } catch (error) {
+          console.error('Erro ao deletar produto:', error);
+          setFeedBack(false)
+        }
+
+  } 
+    
 
   return (
     <div>
@@ -65,14 +88,38 @@ function TabelaProdutos() {
                 <Link href={`/editar/${produto.id}/`}>
                   <BsPencilFill size={20} className='editar'/>
                 </Link>
-                <MdDeleteForever size={30} className='deletar'/>
+
+                <MdDeleteForever
+                  size={30} 
+                  className='deletar'
+                  onClick={() => {
+                    handleDelete(produto.id);
+                    deleteSuccess();
+                  }}
+                
+                />
+
+                <Toaster 
+                  position="bottom-left"
+                  toastOptions={{
+        
+                    className: '',
+                    duration: 5000,
+                    style: {
+                      background: '#008000',
+                      color: '#fff',
+                    },
+              
+                  }}
+                />
+          
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <Link href="/cadastrar" className='linkCadastro'>Cadastrar um novo Produto</Link>
+      <Link href="/cadastrarProduto" className='linkCadastro'>Cadastrar um novo Produto</Link>
     </div>
   )
 }
