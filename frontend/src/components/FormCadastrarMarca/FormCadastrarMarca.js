@@ -57,10 +57,10 @@ function FormCadastrar() {
           if (response.status === 400) {
             const errorData = await response.json();
             console.log(errorData)
-            setError('Ja existe uma marca com este nome.');  // Definindo o erro no estado
+            setError('Ja existe uma marca com este nome.');
 
           } else {
-            const data = await response.json(); // Obtém os dados da resposta
+            const data = await response.json();
             console.log("Marca cadastrado com sucesso:", data);
             setFeedback(true);
           }
