@@ -12,7 +12,6 @@ function EditarProduto() {
 
     useEffect(() => {
         if (id) {
-        // Faça uma requisição para obter os detalhes do produto usando o ID
         fetch(`${apiUrl}/produto/produto/${id}`)
             .then((response) => response.json())
             .then((data) => setProduto(data))

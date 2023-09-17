@@ -63,7 +63,7 @@ function EditarProduto({params}) {
             if (!response.ok) {
               throw new Error('Não foi possível atualizar o produto.');
             }
-            // Trate a resposta conforme necessário (por exemplo, exiba uma mensagem de sucesso).
+    
             console.log('Produto atualizado com sucesso!');
         } catch (error) {
             console.error('Erro ao atualizar produto:', error);
@@ -118,7 +118,7 @@ function EditarProduto({params}) {
             <Toaster 
                 position="bottom-left"
                 toastOptions={{
-                  // Define default options
+    
                   className: '',
                   duration: 5000,
                   style: {
