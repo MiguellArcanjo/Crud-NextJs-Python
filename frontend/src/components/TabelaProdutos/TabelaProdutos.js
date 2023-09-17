@@ -13,6 +13,7 @@ function TabelaProdutos() {
   const [ produtos, setProdutos ] = useState([]);
   const [ marcaProduto, setMarcaProduto ] = useState([]);
   const [ categoriaProduto, setCategoriaProduto ] = useState([])
+  const [ loading, setLoading ] = useState(true)
 
 
   useEffect(() => {
@@ -25,7 +26,10 @@ function TabelaProdutos() {
   useEffect(() => {
     fetch(`${apiUrl}/produto/marca`)
       .then((response) => response.json())
-      .then((data) => setMarcaProduto(data))
+      .then((data) => {
+        setMarcaProduto(data);
+        setLoading(false)
+      })
       .catch((error) => console.error("Erro ao buscar a marca", error))
   }, [])
   
@@ -55,6 +59,9 @@ function TabelaProdutos() {
 
   } 
     
+  if(loading) {
+    return <h1 className='loading'>Carregando...</h1>
+  }
 
   return (
     <div>
@@ -118,8 +125,12 @@ function TabelaProdutos() {
           ))}
         </tbody>
       </table>
-
-      <Link href="/cadastrarProduto" className='linkCadastro'>Cadastrar um novo Produto</Link>
+      
+      <div className='btnCadastrar'>
+        <Link href="/cadastrarProduto" className='linkCadastro'>Cadastrar um novo Produto</Link>
+        <Link href="/cadastrarMarca" className='linkCadastro'>Cadastrar uma nova marca</Link>
+        <Link href="/cadastrarCategoria" className='linkCadastro'>Cadastrar uma nova categoria</Link>
+      </div>
     </div>
   )
 }

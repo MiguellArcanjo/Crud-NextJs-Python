@@ -23,8 +23,17 @@
     display: flex;
     justify-content: center;
     background-color: #253342;
-    padding: 20px;
+    padding: 6px;
     border-radius: 20px;
-    width: 300px;
+    width: 240px;
     margin: 40px auto;
+}
+
+.btnCadastrar {
+    display: flex;
+}
+
+.loading {
+    color: white;
+    font-weight: bold;
 }
